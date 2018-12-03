@@ -21,7 +21,7 @@ f.close()
 #tset[0][i] is the image
 #tset[1][i] is the label
 
-#create two data sets of images of 7 and 9 from original data set
+#create two training data sets of images of 7 and 9 from original data set
 seven_image_set = []
 nine_image_set = []
 for i in range(len(tset[0])):
@@ -29,12 +29,35 @@ for i in range(len(tset[0])):
         seven_image_set.append(tset[0][i])
     elif (tset[1][i] == 9):
         nine_image_set.append(tset[0][i])
-print(seven_image_set[0][0])
+
+#labels for seven set
+seven_target_set = np.zeros((len(seven_image_set), 10))
+for i in range(len(seven_image_set)):
+    seven_target_set[i][7] = 1
+print (seven_target_set[0])
+
+#labels for nine set
+nine_target_set = np.zeros((len(nine_image_set), 10))
+for i in range(len(nine_image_set)):
+    nine_target_set[i][9] = 1
+print (nine_target_set[0])
+
+#TRAIN image set
+TRAIN_image_set = seven_image_set
+for i in range(len(nine_image_set)):
+    TRAIN_image_set.append(nine_image_set[i])
+
+#TRAIN label set
+TRAIN_label_set = seven_target_set
+for i in range(len(nine_target_set)):
+    TRAIN_label_set.append(nine_target_set[i])
+
+
 nread = 200
 # Just use the first few images
 #training images
 train_in = tset[0][:nread, :]
-
+print(train_in[5])
 
 # This is a little bit of work -- 1 of N encoding
 # Make sure you understand how it does it
@@ -42,6 +65,7 @@ train_in = tset[0][:nread, :]
 train_tgt = np.zeros((nread, 10))
 for i in range(nread):
     train_tgt[i, tset[1][i]] = 1
+print(train_tgt[0][5])
 
 #test images
 test_in = teset[0][:nread, :]
